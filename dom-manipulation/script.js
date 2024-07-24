@@ -226,6 +226,73 @@ function addQuote() {
 }
 
 
+function populateCategories() {
+  const categoryFilter = document.getElementById('categoryFilter');
+  categoryFilter.innerHTML = '<option value="all">All Categories</option>';
+  
+  const categories = quotes
+      .map(quote => quote.category)
+      .filter((value, index, self) => self.indexOf(value) === index);
+
+  categories.forEach(category => {
+      const option = document.createElement('option');
+      option.value = category;
+      option.textContent = category;
+      categoryFilter.appendChild(option);
+  });
+}
+
+
+
+
+const quotes = [
+  { text: "Be yourself; everyone else is already taken.", category: "Inspiration" },
+  { text: "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.", category: "Humor" },
+  { text: "Be the change that you wish to see in the world.", category: "Motivation" },
+  { text: "If you tell the truth, you don't have to remember anything.", category: "Wisdom" },
+  { text: "A day without sunshine is like, you know, night.", category: "Humor" }
+];
+
+function populateCategories() {
+  const categoryFilter = document.getElementById('categoryFilter');
+  categoryFilter.innerHTML = '<option value="all">All Categories</option>';
+  
+  const categories = quotes
+      .map(quote => quote.category)
+      .filter((value, index, self) => self.indexOf(value) === index);
+  
+  categories.forEach(category => {
+      const option = document.createElement('option');
+      option.value = category;
+      option.textContent = category;
+      categoryFilter.appendChild(option);
+  });
+}
+
+function filterQuotes() {
+  const selectedCategory = document.getElementById('categoryFilter').value;
+  const quoteDisplay = document.getElementById('quoteDisplay');
+  quoteDisplay.innerHTML = '';
+
+  quotes.forEach(quote => {
+      if (selectedCategory === 'all' || quote.category === selectedCategory) {
+          const quoteElement = document.createElement('p');
+          quoteElement.textContent = `${quote.text} - ${quote.category}`;
+          quoteDisplay.appendChild(quoteElement);
+      }
+  });
+
+  localStorage.setItem('selectedCategory', selectedCategory);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  populateCategories();
+  const savedCategory = localStorage.getItem('selectedCategory') || 'all';
+  document.getElementById('categoryFilter').value = savedCategory;
+  filterQuotes();
+});
+
+
 });
 
   
