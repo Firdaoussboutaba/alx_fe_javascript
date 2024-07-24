@@ -293,6 +293,43 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
+
+const apiURL = 'https://jsonplaceholder.typicode.com/posts';
+
+async function fetchQuotesFromServer() {
+    try {
+        const response = await fetch(apiURL);
+        const serverQuotes = await response.json();
+        updateLocalQuotes(serverQuotes);
+    } catch (error) {
+        console.error('Error fetching quotes from server:', error);
+    }
+}
+
+function updateLocalQuotes(serverQuotes) {
+    let localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+    
+    const updatedQuotes = mergeQuotes(localQuotes, serverQuotes);
+    
+    localStorage.setItem('quotes', JSON.stringify(updatedQuotes));
+    displayQuotes(updatedQuotes);
+}
+
+function mergeQuotes(localQuotes, serverQuotes) {
+    return serverQuotes;
+}
+
+setInterval(fetchQuotesFromServer, 300000); 
+
+
+function notifyUserOfUpdate() {
+  alert('The quotes have been updated based on the latest server data.');
+}
+
+
+
+
 });
 
   
