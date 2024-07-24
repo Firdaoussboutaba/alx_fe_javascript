@@ -359,6 +359,47 @@ syncData(quotes);
 
 
 
+
+let = [
+  { text: "The best way to predict the future is to invent it.", author: "Alan Kay", category: "Inspirational" },
+  { text: "Life is 10% what happens to us and 90% how we react to it.", author: "Charles R. Swindoll", category: "Life" }
+];
+
+async function syncQuotes() {
+  try {
+      const response = await fetch('https://your-api-endpoint.com/quotes');
+      if (response.ok) {
+          const serverQuotes = await response.json();
+
+          
+          quotes = serverQuotes;
+          console.log('Quotes synchronized with server data.');
+      } else {
+          console.error('Failed to fetch quotes from server.');
+      }
+
+      const postResponse = await fetch('https://your-api-endpoint.com/quotes', {
+          method: 'POST', 
+          headers: {
+              'Content-Type': 'application/json', 
+          },
+          body: JSON.stringify(quotes), 
+      });
+
+      if (postResponse.ok) {
+          console.log('Local quotes successfully sent to the server.');
+      } else {
+          console.error('Failed to send local quotes to server.');
+      }
+  } catch (error) {
+      console.error('Error syncing quotes:', error);
+  }
+}
+
+syncQuotes();
+
+
+
 });
 
   
