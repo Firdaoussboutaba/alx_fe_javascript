@@ -124,6 +124,46 @@ function importFromJsonFile(event) {
     document.getElementById('exportQuotesBtn').addEventListener('click', exportQuotes);
     document.getElementById('importFile').addEventListener('change', importFromJsonFile);
   });
+
+
+
+
+
+
+function createAddQuoteForm() {
+  const formContainer = document.createElement('div');
+  formContainer.id = 'addQuoteForm';
+
+  const quoteInput = document.createElement('input');
+  quoteInput.id = 'newQuoteText';
+  quoteInput.type = 'text';
+  quoteInput.placeholder = 'Enter a new quote';
+
+  const categoryInput = document.createElement('input');
+  categoryInput.id = 'newQuoteCategory';
+  categoryInput.type = 'text';
+  categoryInput.placeholder = 'Enter quote category';
+
+  const addButton = document.createElement('button');
+  addButton.textContent = 'Add Quote';
+  addButton.addEventListener('click', addQuote);
+
+  formContainer.appendChild(quoteInput);
+  formContainer.appendChild(categoryInput);
+  formContainer.appendChild(addButton);
+
+  document.body.appendChild(formContainer);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  createAddQuoteForm();
+  loadQuotes();
+  loadLastViewedQuote();
+  document.getElementById('newQuote').addEventListener('click', showRandomQuote);
+  document.getElementById('exportQuotesBtn').addEventListener('click', exportQuotes);
+  document.getElementById('importFile').addEventListener('change', importFromJsonFile);
+});
+
   
 
 
