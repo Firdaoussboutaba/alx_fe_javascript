@@ -164,8 +164,66 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('importFile').addEventListener('change', importFromJsonFile);
 });
 
-  
+ 
 
+
+function populateCategoryFilter() {
+  const categoryFilter = document.getElementById('categoryFilter');
+  categoryFilter.innerHTML = '<option value="all">All Categories</option>';
+  
+  const categories = quotes.reduce((cats, quote) => {
+      if (!cats.includes(quote.category)) {
+          cats.push(quote.category);
+      }
+      return cats;
+  }, []);
+  
+  categories.forEach(category => {
+      const option = document.createElement('option');
+      option.value = category;
+      option.textContent = category;
+      categoryFilter.appendChild(option);
+  });
+}
+
+
+function filterQuotes() {
+  const selectedCategory = document.getElementById('categoryFilter').value;
+  const quoteDisplay = document.getElementById('quoteDisplay');
+  quoteDisplay.innerHTML = '';
+
+  quotes.forEach(quote => {
+      if (selectedCategory === 'all' || quote.category === selectedCategory) {
+          const quoteElement = document.createElement('p');
+          quoteElement.textContent = `${quote.text} - ${quote.category}`;
+          quoteDisplay.appendChild(quoteElement);
+      }
+  });
+
+  localStorage.setItem('selectedCategory', selectedCategory);
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  populateCategoryFilter();
+  const savedCategory = localStorage.getItem('selectedCategory') || 'all';
+  document.getElementById('categoryFilter').value = savedCategory;
+  filterQuotes();
+});
+
+
+
+function addQuote() {
+  const quoteText = document.getElementById('newQuoteText').value.trim();
+  const quoteCategory = document.getElementById('newQuoteCategory').value.trim();
+  
+  if (quoteText && quoteCategory) {
+      quotes.push({ text: quoteText, category: quoteCategory });
+      saveQuotes();
+      populateCategoryFilter(); 
+      filterQuotes(); 
+  }
+}
 
 
 });
