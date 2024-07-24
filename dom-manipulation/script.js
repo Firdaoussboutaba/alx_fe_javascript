@@ -330,6 +330,35 @@ function notifyUserOfUpdate() {
 
 
 
+async function syncData(quotes) {
+  try {
+      const response = await fetch('https://your-api-endpoint.com/quotes', {
+          method: 'POST', 
+          headers: {
+              'Content-Type': 'application/json', 
+          },
+          body: JSON.stringify(quotes), 
+      });
+
+      if (response.ok) {
+          console.log('Data synced successfully');
+      } else {
+          console.error('Failed to sync data');
+      }
+  } catch (error) {
+      console.error('Error syncing data:', error);
+  }
+}
+
+const quote = [
+  { text: "Life is what happens when you're busy making other plans.", author: "John Lennon" },
+  { text: "The purpose of our lives is to be happy.", author: "Dalai Lama" }
+];
+syncData(quotes);
+ 
+
+
+
 });
 
   
